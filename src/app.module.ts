@@ -1,21 +1,27 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './app/modules/user.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
+import { ApplicationsModule } from './applications/applications.module';
+import { TechnicalExamModule } from './technical_exam/technical_exam.module';
+import { UsersModule } from './users/users.module';
+import { TechnicalExamQuestionsModule } from './technical_exam_questions/technical_exam_questions.module';
+import { TechnicalExamQuestionsAlternativesModule } from './technical_exam_questions_alternatives/technical_exam_questions_alternatives.module';
+import { TechnicalExamSubmissionModule } from './technical_exam_submission/technical_exam_submission.module';
+import { TechnicalExamSubmissionQuestionAlternativesModule } from './technical_exam_submission_question_alternatives/technical_exam_submission_question_alternatives.module';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppDataSource } from 'ormconfig';
 
 @Module({
   imports: [
-    UserModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB,
-      entities: ['src/app/models/**/*.model.{ts,js}'],
-      logging: true,
-      migrations: ['src/migrations/*{.ts,.js}'],
-    }),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(AppDataSource.options),
+    TechnicalExamModule,
+    TechnicalExamQuestionsModule,
+    TechnicalExamSubmissionQuestionAlternativesModule,
+    ApplicationsModule,
+    UsersModule,
+    TechnicalExamQuestionsAlternativesModule,
+    TechnicalExamSubmissionModule,
   ],
   controllers: [],
   providers: [],
