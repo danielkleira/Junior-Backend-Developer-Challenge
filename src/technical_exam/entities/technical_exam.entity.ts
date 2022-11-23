@@ -5,6 +5,8 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { TechnicalExamQuestion } from 'src/technical_exam_questions/entities/technical_exam_question.entity';
@@ -26,12 +28,12 @@ export class TechnicalExam {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(
+  @OneToMany(
     () => TechnicalExamQuestion,
     (technicalExamQuestion) => technicalExamQuestion.id,
     { nullable: true },
   )
-  technicalExamQuestions: TechnicalExamQuestion;
+  technicalExamQuestions: TechnicalExamQuestion[];
 
   constructor() {
     if (!this.id) {

@@ -19,8 +19,8 @@ export class TechnicalExamQuestionsAlternative {
   @Column({ length: 128 })
   text: string;
 
-  @Column({ length: 128 })
-  is_correct: string;
+  @Column()
+  is_correct: boolean;
 
   @Column({ type: 'boolean', default: true })
   is_active: boolean;

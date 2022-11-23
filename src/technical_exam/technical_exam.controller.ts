@@ -21,13 +21,25 @@ export class TechnicalExamController {
   }
 
   @Get()
-  findAll() {
-    return this.technicalExamService.findAll();
+  findAllExams() {
+    return this.technicalExamService.findAllExams();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.technicalExamService.findOne(+id);
+  @Get(':exam_id/question/:question_id')
+  findQuestionWithAlternative(
+    @Param('exam_id') exam: string,
+    @Param('question_id') question: string,
+  ) {
+    return this.technicalExamService.findQuestionsWithAlternatives(
+      exam,
+      question,
+    );
+  }
+
+  @Get(':exam_id/')
+  findQuestion(@Param('exam_id') id: string) {
+    console.log(id);
+    return this.technicalExamService.findQuestions(id);
   }
 
   @Patch(':id')

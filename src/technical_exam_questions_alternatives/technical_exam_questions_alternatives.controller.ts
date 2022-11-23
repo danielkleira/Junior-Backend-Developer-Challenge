@@ -11,7 +11,7 @@ import { TechnicalExamQuestionsAlternativesService } from './technical_exam_ques
 import { CreateTechnicalExamQuestionsAlternativeDto } from './dto/create-technical_exam_questions_alternative.dto';
 import { UpdateTechnicalExamQuestionsAlternativeDto } from './dto/update-technical_exam_questions_alternative.dto';
 
-@Controller('technical-exam-questions-alternatives')
+@Controller('alternatives')
 export class TechnicalExamQuestionsAlternativesController {
   constructor(
     private readonly technicalExamQuestionsAlternativesService: TechnicalExamQuestionsAlternativesService,

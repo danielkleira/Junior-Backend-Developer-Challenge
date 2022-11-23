@@ -3,9 +3,10 @@ import { TechnicalExamQuestionsService } from './technical_exam_questions.servic
 import { TechnicalExamQuestionsController } from './technical_exam_questions.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TechnicalExamQuestion } from './entities/technical_exam_question.entity';
+import { TechnicalExam } from 'src/technical_exam/entities/technical_exam.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TechnicalExamQuestion])],
+  imports: [TypeOrmModule.forFeature([TechnicalExamQuestion, TechnicalExam])],
   controllers: [TechnicalExamQuestionsController],
   providers: [TechnicalExamQuestionsService],
 })

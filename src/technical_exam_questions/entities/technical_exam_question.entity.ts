@@ -32,12 +32,12 @@ export class TechnicalExamQuestion {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(
+  @ManyToOne(
     () => TechnicalExam,
     (technicalExam) => technicalExam.technicalExamQuestions,
     { nullable: false },
   )
-  exam_: TechnicalExam[];
+  exam_: TechnicalExam;
 
   @OneToMany(
     () => TechnicalExamSubmissionQuestionAlternative,

@@ -11,7 +11,9 @@ describe('TechnicalExamQuestionsController', () => {
       providers: [TechnicalExamQuestionsService],
     }).compile();
 
-    controller = module.get<TechnicalExamQuestionsController>(TechnicalExamQuestionsController);
+    controller = module.get<TechnicalExamQuestionsController>(
+      TechnicalExamQuestionsController,
+    );
   });
 
   it('should be defined', () => {

@@ -1,1 +1,5 @@
-export class CreateTechnicalExamQuestionDto {}
+export class CreateTechnicalExamQuestionDto {
+  title: string;
+  text: string;
+  exam: string;
+}
