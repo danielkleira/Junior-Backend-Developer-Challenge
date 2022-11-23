@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { TechnicalExam } from 'src/technical_exam/entities/technical_exam.entity';
 import { TechnicalExamQuestionsAlternative } from 'src/technical_exam_questions_alternatives/entities/technical_exam_questions_alternative.entity';
@@ -15,13 +23,13 @@ export class TechnicalExamQuestion {
   @Column({ length: 128 })
   text: string;
 
-  @Column()
+  @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at: Date;
 
   @OneToMany(

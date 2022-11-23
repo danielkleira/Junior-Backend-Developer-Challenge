@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { TechnicalExamSubmission } from 'src/technical_exam_submission/entities/technical_exam_submission.entity';
 import { TechnicalExamQuestionsAlternative } from 'src/technical_exam_questions_alternatives/entities/technical_exam_questions_alternative.entity';
@@ -9,13 +16,13 @@ export class TechnicalExamSubmissionQuestionAlternative {
   @PrimaryColumn('uuid')
   readonly id: string;
 
-  @Column()
+  @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at: Date;
 
   @ManyToOne(

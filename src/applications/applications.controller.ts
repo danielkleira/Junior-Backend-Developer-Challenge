@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
 } from '@nestjs/common';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
@@ -17,18 +18,20 @@ export class ApplicationsController {
 
   @Post()
   create(@Body() createApplicationDto: CreateApplicationDto) {
-    return this.applicationsService.create(createApplicationDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.applicationsService.findAll();
+    const user = createApplicationDto.user;
+    const exam = createApplicationDto.exam;
+    return this.applicationsService.create(user, exam);
   }
 
   @Get(':id')
+  findAll(@Param('id') id: string) {
+    return this.applicationsService.findAll(id);
+  }
+
+  /* @Get(':id')
   findOne(@Param('id') id: string) {
     return this.applicationsService.findOne(+id);
-  }
+  } */
 
   @Patch(':id')
   update(

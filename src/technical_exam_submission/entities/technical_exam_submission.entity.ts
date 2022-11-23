@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { Application } from 'src/applications/entities/application.entity';
 
@@ -13,13 +20,13 @@ export class TechnicalExamSubmission {
   @Column()
   finish_at: Date;
 
-  @Column()
+  @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at: Date;
 
   @ManyToOne(() => Application, (application) => application.id, {

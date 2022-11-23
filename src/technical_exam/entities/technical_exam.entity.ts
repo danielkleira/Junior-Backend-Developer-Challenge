@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { TechnicalExamQuestion } from 'src/technical_exam_questions/entities/technical_exam_question.entity';
 
@@ -10,19 +17,19 @@ export class TechnicalExam {
   @Column({ length: 128 })
   name: string;
 
-  @Column()
+  @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at: Date;
 
   @ManyToOne(
     () => TechnicalExamQuestion,
     (technicalExamQuestion) => technicalExamQuestion.id,
-    { nullable: false },
+    { nullable: true },
   )
   technicalExamQuestions: TechnicalExamQuestion;
 

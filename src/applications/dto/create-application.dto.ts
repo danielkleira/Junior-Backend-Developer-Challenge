@@ -1,1 +1,4 @@
-export class CreateApplicationDto {}
+export class CreateApplicationDto {
+  user: string;
+  exam: string;
+}

@@ -6,6 +6,8 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { User } from 'src/users/entities/user.entity';
@@ -20,19 +22,20 @@ export class Application {
   @Column()
   score: number;
 
-  @Column()
+  @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => User, (user) => user.applications, { nullable: true })
+  @ManyToOne(() => User, (user) => user.applications, { eager: true })
+  @JoinColumn()
   user_: User;
 
-  @OneToOne(() => TechnicalExam, { nullable: true })
+  @OneToOne(() => TechnicalExam, { nullable: true, eager: true })
   @JoinColumn()
   exam_: TechnicalExam;
 
