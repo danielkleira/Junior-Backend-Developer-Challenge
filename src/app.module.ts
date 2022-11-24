@@ -10,6 +10,7 @@ import { TechnicalExamSubmissionQuestionAlternativesModule } from './technical_e
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppDataSource } from 'ormconfig';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,9 +20,9 @@ import { AppDataSource } from 'ormconfig';
     TechnicalExamQuestionsModule,
     TechnicalExamSubmissionQuestionAlternativesModule,
     ApplicationsModule,
-    UsersModule,
     TechnicalExamQuestionsAlternativesModule,
     TechnicalExamSubmissionModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

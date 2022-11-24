@@ -26,7 +26,7 @@ export class User {
 
   @Column({ length: 128 })
   @Exclude()
-  readonly password: string;
+  password: string;
 
   @Column({ type: 'boolean', default: true })
   is_active: boolean;

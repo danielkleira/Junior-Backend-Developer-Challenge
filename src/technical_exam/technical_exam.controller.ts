@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { TechnicalExamService } from './technical_exam.service';
 import {
@@ -13,6 +14,8 @@ import {
   AnswerTechnicalExamDto,
   CreateTechnicalExamDto,
 } from './dto/create-technical_exam.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('exams')
 export class TechnicalExamController {
