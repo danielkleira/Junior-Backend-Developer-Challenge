@@ -58,6 +58,11 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Run in Insomnia
+
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=GamaRoutes&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fdanielkleira%2FinsomniaGigalink%2Fmain%2FInsomnia_gama%3Ftoken%3DGHSAT0AAAAAAB3MDVJ55BGIBTCAMQRIWRUGY3767GQ)
+
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
