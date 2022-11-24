@@ -42,7 +42,7 @@ export class TechnicalExamQuestionsAlternative {
   @ManyToOne(
     () => TechnicalExamQuestion,
     (technicalExamQuestions) => technicalExamQuestions.id,
-    { nullable: true },
+    { nullable: true, eager: true },
   )
   question_: TechnicalExamQuestion;
 

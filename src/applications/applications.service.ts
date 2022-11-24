@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { throwError } from 'rxjs';
 import { where } from 'sequelize';
 import { TechnicalExam } from 'src/technical_exam/entities/technical_exam.entity';
+import { TechnicalExamSubmission } from 'src/technical_exam_submission/entities/technical_exam_submission.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateApplicationDto } from './dto/create-application.dto';
@@ -16,6 +18,12 @@ export class ApplicationsService {
 
     @InjectRepository(User)
     private userRepository: Repository<User>,
+
+    @InjectRepository(TechnicalExam)
+    private examRepository: Repository<TechnicalExam>,
+
+    @InjectRepository(TechnicalExamSubmission)
+    private submissionRepository: Repository<TechnicalExamSubmission>,
   ) {}
 
   async create(userId: string, examId: string): Promise<Application> {
@@ -23,9 +31,14 @@ export class ApplicationsService {
       id: userId,
     });
 
+    if (!user) {
+      throw new NotFoundException('Usuário nao encontrado');
+    }
+    const exam = await this.examRepository.findOneBy({ id: examId });
     const app = new Application();
     app.score = 0;
     app.user_ = user;
+    app.exam_ = exam;
     app.technicalExamSubmissions = [];
     const application = this.appRepository.create(app);
 
@@ -41,16 +54,28 @@ export class ApplicationsService {
     });
     return applications;
   }
+  async finishApplication(id: string, user: string, submissionId: string) {
+    console.log('aqui2================' + id, user, submissionId);
+    const app = await this.appRepository.findOneBy({ id: id });
 
-  findOne(id: number) {
-    return `This action returns a #${id} application`;
+    const updateApp = Object.assign(app, (app.is_active = false));
+    await this.appRepository.save(updateApp);
+
+    const submission = await this.submissionRepository.findOneBy({
+      id: submissionId,
+    });
+
+    const updateSubmission = Object.assign(
+      submission,
+      (submission.finish_at = new Date()),
+    );
+
+    await this.submissionRepository.save(updateSubmission);
+    return { Status: 'Prova finalizada' };
   }
 
-  update(id: number, updateApplicationDto: UpdateApplicationDto) {
-    return `This action updates a #${id} application`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} application`;
+  async findScore(id: string) {
+    const app = await this.appRepository.findOneBy({ id: id });
+    return { score: app.score };
   }
 }

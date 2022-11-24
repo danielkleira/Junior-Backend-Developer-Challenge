@@ -26,7 +26,7 @@ export class TechnicalExamQuestion {
   @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   created_at: Date;
 
   @UpdateDateColumn()
@@ -35,7 +35,7 @@ export class TechnicalExamQuestion {
   @ManyToOne(
     () => TechnicalExam,
     (technicalExam) => technicalExam.technicalExamQuestions,
-    { nullable: false },
+    { nullable: false, eager: true },
   )
   exam_: TechnicalExam;
 

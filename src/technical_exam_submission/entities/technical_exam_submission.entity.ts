@@ -14,10 +14,10 @@ export class TechnicalExamSubmission {
   @PrimaryColumn('uuid')
   readonly id: string;
 
-  @Column()
+  @CreateDateColumn()
   started_at: Date;
 
-  @Column()
+  @Column({ nullable: true })
   finish_at: Date;
 
   @Column({ type: 'boolean', default: true })

@@ -35,7 +35,7 @@ export class Application {
   @JoinColumn()
   user_: User;
 
-  @OneToOne(() => TechnicalExam, { nullable: true, eager: true })
+  @ManyToOne(() => TechnicalExam, { nullable: true, eager: true })
   @JoinColumn()
   exam_: TechnicalExam;
 

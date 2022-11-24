@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { TechnicalExamQuestion } from 'src/technical_exam_questions/entities/technical_exam_question.entity';
+import { Application } from 'src/applications/entities/application.entity';
 
 @Entity()
 export class TechnicalExam {
@@ -27,6 +28,11 @@ export class TechnicalExam {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Application, (application) => application.id, {
+    nullable: true,
+  })
+  application: Application[];
 
   @OneToMany(
     () => TechnicalExamQuestion,
