@@ -60,7 +60,7 @@ $ npm run test:cov
 
 ## Run in Insomnia
 
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=GamaRoutes&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fdanielkleira%2FinsomniaGigalink%2Fmain%2FInsomnia_gama%3Ftoken%3DGHSAT0AAAAAAB3MDVJ55BGIBTCAMQRIWRUGY3767GQ)
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=GamaInsomnia&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fdanielkleira%2FinsomniaGigalink%2Fmain%2FInsomnia_gama%3Ftoken%3DGHSAT0AAAAAAB3MDVJ4INURAJIUQGYQOJGSY4AA5HQ)
 
 
 ## Support
