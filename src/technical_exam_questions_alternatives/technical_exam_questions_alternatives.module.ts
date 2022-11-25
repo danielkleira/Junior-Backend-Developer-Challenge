@@ -3,7 +3,7 @@ import { TechnicalExamQuestionsAlternativesService } from './technical_exam_ques
 import { TechnicalExamQuestionsAlternativesController } from './technical_exam_questions_alternatives.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TechnicalExamQuestionsAlternative } from './entities/technical_exam_questions_alternative.entity';
-import { TechnicalExamQuestion } from 'src/technical_exam_questions/entities/technical_exam_question.entity';
+import { TechnicalExamQuestion } from '../technical_exam_questions/entities/technical_exam_question.entity';
 
 @Module({
   imports: [

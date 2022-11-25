@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Application } from 'src/applications/entities/application.entity';
+import { Application } from '../../applications/entities/application.entity';
 
 @Entity()
 export class TechnicalExamSubmission {

@@ -8,9 +8,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { TechnicalExam } from 'src/technical_exam/entities/technical_exam.entity';
-import { TechnicalExamQuestionsAlternative } from 'src/technical_exam_questions_alternatives/entities/technical_exam_questions_alternative.entity';
-import { TechnicalExamSubmissionQuestionAlternative } from 'src/technical_exam_submission_question_alternatives/entities/technical_exam_submission_question_alternative.entity';
+import { TechnicalExam } from '../../technical_exam/entities/technical_exam.entity';
+import { TechnicalExamQuestionsAlternative } from '../../technical_exam_questions_alternatives/entities/technical_exam_questions_alternative.entity';
+import { TechnicalExamSubmissionQuestionAlternative } from '../../technical_exam_submission_question_alternatives/entities/technical_exam_submission_question_alternative.entity';
 
 @Entity()
 export class TechnicalExamQuestion {

@@ -1,10 +1,15 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Application } from 'src/applications/entities/application.entity';
-import { TechnicalExamQuestion } from 'src/technical_exam_questions/entities/technical_exam_question.entity';
-import { TechnicalExamQuestionsAlternative } from 'src/technical_exam_questions_alternatives/entities/technical_exam_questions_alternative.entity';
-import { TechnicalExamSubmission } from 'src/technical_exam_submission/entities/technical_exam_submission.entity';
-import { TechnicalExamSubmissionQuestionAlternative } from 'src/technical_exam_submission_question_alternatives/entities/technical_exam_submission_question_alternative.entity';
+import { Application } from '../applications/entities/application.entity';
+import { TechnicalExamQuestion } from '../technical_exam_questions/entities/technical_exam_question.entity';
+import { TechnicalExamQuestionsAlternative } from '../technical_exam_questions_alternatives/entities/technical_exam_questions_alternative.entity';
+import { TechnicalExamSubmission } from '../technical_exam_submission/entities/technical_exam_submission.entity';
+import { TechnicalExamSubmissionQuestionAlternative } from '../technical_exam_submission_question_alternatives/entities/technical_exam_submission_question_alternative.entity';
 import { Repository } from 'typeorm';
 import { CreateTechnicalExamDto } from './dto/create-technical_exam.dto';
 import { TechnicalExam } from './entities/technical_exam.entity';
@@ -46,12 +51,22 @@ export class TechnicalExamService {
     const exam = await this.examRepository.findOneBy({
       id: idExam,
     });
+
+    if (!exam) {
+      throw new NotFoundException('Exame não encontrado');
+    }
     const question = await this.questionRepository.findOneBy({
       id: idQuestion,
     });
+    if (!question) {
+      throw new NotFoundException('Questão não encontrada');
+    }
     const alternatives = await this.alternativeRepository.find({
       where: { question_: { id: idQuestion } },
     });
+    if (alternatives.length === 0) {
+      throw new NotFoundException('Alternativas não encontrada');
+    }
     const newAlternativeReturn = [];
     for (let i = 0; i < alternatives.length; i++) {
       newAlternativeReturn.push({
@@ -70,6 +85,10 @@ export class TechnicalExamService {
     const exam = await this.questionRepository.find({
       where: { exam_: { id: id } },
     });
+
+    if (exam.length === 0) {
+      throw new NotFoundException('Provas não encontradas');
+    }
 
     const newReturn = [];
     for (let i = 0; i < exam.length; i++) {
@@ -92,17 +111,63 @@ export class TechnicalExamService {
     const app = await this.applicationRepository.findOneBy({
       id: application,
     });
+
+    if (!app) {
+      throw new NotFoundException('Aplicação não encontrada');
+    }
     const question = await this.questionRepository.findOneBy({
       id: questionId,
     });
+    if (!question) {
+      throw new NotFoundException('Questão não encontrada');
+    }
 
     const alternativeAnswer = await this.alternativeRepository.findOneBy({
       id: alternative,
     });
+    if (!alternativeAnswer) {
+      throw new NotFoundException('Alternativa não encontrada');
+    }
 
     const exam = await this.examRepository.findOneBy({
       id: examId,
     });
+
+    if (!exam) {
+      throw new NotFoundException('Prova não encontrada');
+    }
+
+    if (exam.id !== question.exam_.id) {
+      throw new HttpException(
+        'Responda uma prova com uma questão válida dessa prova',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    if (app.exam_.id !== exam.id) {
+      throw new HttpException(
+        'Responda uma prova de uma aplicação válida',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    if (app.is_active === false) {
+      throw new HttpException(
+        'Esta aplicação já foi finalizada',
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
+
+    if (alternativeAnswer.question_.id !== question.id) {
+      throw new HttpException(
+        'Responda uma questão com uma alternativa válida dessa questão',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    if (alternativeAnswer.is_correct == true) {
+      const incrementScore = Object.assign(app, (app.score += 1));
+      await this.applicationRepository.save(incrementScore);
+    }
 
     const examSubmission = new TechnicalExamSubmission();
     examSubmission.application_ = app;
@@ -119,31 +184,6 @@ export class TechnicalExamService {
     const questionAlternativeSubmission =
       this.submissionAlternativeRepository.create(submission);
     this.submissionAlternativeRepository.save(questionAlternativeSubmission);
-
-    if (exam.id !== question.exam_.id) {
-      throw new HttpException(
-        'Responda uma prova com uma questão válida dessa prova',
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
-
-    if (app.is_active === false) {
-      throw new HttpException(
-        'Aplicação finalizada',
-        HttpStatus.NOT_ACCEPTABLE,
-      );
-    }
-
-    if (alternativeAnswer.question_.id !== question.id) {
-      throw new HttpException(
-        'Responda uma questão com uma alternativa válida dessa questão',
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
-    if (alternativeAnswer.is_correct == true) {
-      const incrementScore = Object.assign(app, (app.score += 1));
-      await this.applicationRepository.save(incrementScore);
-    }
 
     return {
       application: {

@@ -1,9 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TechnicalExam } from 'src/technical_exam/entities/technical_exam.entity';
+import { TechnicalExam } from '../technical_exam/entities/technical_exam.entity';
 import { Repository } from 'typeorm';
 import { CreateTechnicalExamQuestionDto } from './dto/create-technical_exam_question.dto';
-import { UpdateTechnicalExamQuestionDto } from './dto/update-technical_exam_question.dto';
 import { TechnicalExamQuestion } from './entities/technical_exam_question.entity';
 
 @Injectable()
@@ -20,6 +19,9 @@ export class TechnicalExamQuestionsService {
     const exam = await this.examRepository.findOneBy({
       id: createTechnicalExamQuestionDto.exam,
     });
+    if (!exam) {
+      throw new NotFoundException('Prova não encontrada');
+    }
 
     const question = new TechnicalExamQuestion();
     question.title = createTechnicalExamQuestionDto.title;
@@ -32,20 +34,5 @@ export class TechnicalExamQuestionsService {
 
   findAll() {
     return this.questionsRepository.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} technicalExamQuestion`;
-  }
-
-  update(
-    id: number,
-    updateTechnicalExamQuestionDto: UpdateTechnicalExamQuestionDto,
-  ) {
-    return `This action updates a #${id} technicalExamQuestion`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} technicalExamQuestion`;
   }
 }

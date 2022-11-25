@@ -1,22 +1,18 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { TechnicalExamQuestionsService } from './technical_exam_questions.service';
 import { CreateTechnicalExamQuestionDto } from './dto/create-technical_exam_question.dto';
-import { UpdateTechnicalExamQuestionDto } from './dto/update-technical_exam_question.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@ApiTags('Questions')
 @Controller('questions')
 export class TechnicalExamQuestionsController {
   constructor(
     private readonly technicalExamQuestionsService: TechnicalExamQuestionsService,
   ) {}
 
+  @ApiOperation({ summary: 'Create a Question' })
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(
     @Body() createTechnicalExamQuestionDto: CreateTechnicalExamQuestionDto,
@@ -26,29 +22,10 @@ export class TechnicalExamQuestionsController {
     );
   }
 
+  @ApiOperation({ summary: 'List All Questions' })
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.technicalExamQuestionsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.technicalExamQuestionsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateTechnicalExamQuestionDto: UpdateTechnicalExamQuestionDto,
-  ) {
-    return this.technicalExamQuestionsService.update(
-      +id,
-      updateTechnicalExamQuestionDto,
-    );
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.technicalExamQuestionsService.remove(+id);
   }
 }
