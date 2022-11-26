@@ -38,3 +38,4 @@ lerna-debug.log*
 /packages/**/.npmignore
 /packages/**/LICENSE
 package-lock.json
+.env
